@@ -1,0 +1,306 @@
+@import 'nib' // CSS3 extensions for Stylus: http://visionmedia.github.io/nib/
+@import '../bower_components/bespoke-fx/src/animations.css'
+@import 'zaven-ui.css'
+
+// variables!
+
+slide_width = 1366px
+slide_height = 800px
+slide_background = white
+
+slide_transition_length = .6s
+slide_transition_easing = ease
+slide_transition_rotate_y = 90deg
+// Safari bugs out on 3d transform-origins, so we have to fake it
+slide_transition_nudge_x = -100px
+
+bullet_transition_length = .3s
+bullet_transition_easing = ease
+bullet_transition_translate_x = 16px
+
+zaven_color_primary = #00b2ad
+zaven_color_base = #2c3e50
+
+// base
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+@media print
+  *
+    -webkit-print-color-adjust: exact
+
+@page
+  size: landscape
+  margin: 0
+
+// bespoke.js layout styles
+
+article
+  transition: background slide_transition_length slide_transition_easing
+  display: none
+  &.bespoke-parent
+    display: block
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    overflow: hidden
+    @media print
+      overflow: visible
+      position: static
+    perspective: 600px
+
+.bespoke-slide
+  transition:
+    transform slide_transition_length slide_transition_easing,
+    opacity slide_transition_length slide_transition_easing,
+    background slide_transition_length slide_transition_easing
+  transform-origin: 50% 50% 0
+  backface-visibility: hidden
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  text-align: center
+  width: slide_width
+  height: slide_height
+  position: absolute
+  top: 50%
+  margin-top: (slide_height / 2) * -1
+  left: 50%
+  margin-left: (slide_width / 2) * -1
+  background: slide_background
+  padding: 40px
+  border-radius: 0
+  @media print
+    zoom: 1 !important // disable bespoke-scale
+    height: 743px // seems to correspond with an A4, landscape page height
+    width: 100%
+    page-break-before: always
+    position: static
+    margin: 0
+    transition: none
+
+.bespoke-before
+  transform: translateX(slide_transition_nudge_x * -1) translateX(slide_width / -2) rotateY(slide_transition_rotate_y * -1) translateX(slide_width / -2)
+  @media print
+    transform: none
+
+.bespoke-after
+  transform: translateX(slide_transition_nudge_x) translateX(slide_width / 2) rotateY(slide_transition_rotate_y) translateX(slide_width / 2)
+  @media print
+    transform: none
+
+.bespoke-inactive
+  opacity: 0
+  pointer-events: none
+  @media print
+    opacity 1
+
+.bespoke-active
+  opacity: 1
+
+// bespoke-bullet styles
+
+.bespoke-bullet
+  transition: all bullet_transition_length bullet_transition_easing
+  @media print
+    transition: none
+
+.bespoke-bullet-inactive
+  opacity: 0
+  li&
+    transform: translateX(bullet_transition_translate_x)
+    @media print
+      transform: none
+  @media print
+    opacity: 1
+
+.bespoke-bullet-active
+  opacity: 1
+
+// bespoke-scale styles
+
+.bespoke-scale-parent
+  perspective: 600px
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  @media print
+    transform: none !important
+
+// bespoke-progress styles
+
+.bespoke-progress-parent
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  height: 2px
+  @media only screen and (min-width: 1366px)
+    height: 4px
+  @media print
+    display: none
+
+.bespoke-progress-bar
+  transition: width .6s ease
+  position: absolute
+  height: 100%
+  background: zaven_color_primary
+  border-radius: 0 2px 2px 0
+
+// bespoke-state styles
+
+.emphatic,
+.emphatic .bespoke-slide
+  background: slide_background
+
+// fx styles
+
+.fx-transitioning-in,
+.fx-transitioning-out {
+  visibility: visible;
+}
+
+// prism styles
+
+pre
+  padding: 26px !important
+  border-radius: 8px
+
+// content styles
+
+body
+  font-size: 26px
+
+p
+  font-size: 30px
+  margin: 0 100px 12px
+
+h1
+  font-size: 72px
+  line-height: 1.2em
+
+
+.verdigris
+  color: zaven_color_primary
+
+.white
+  color: white
+h2
+  font-size: 42px
+
+h3
+  font-size: 30px
+
+ul
+  list-style: none
+
+li
+  margin-bottom: 26px
+
+
+/*
+PRESENTATION-SPECIFIC
+-----------------------------------------------
+*/
+
+.avatar--small
+  width: 70px;
+  height: 70px;
+
+.avatar
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 200px;
+  -webkit-border-radius: 200px;
+  border-radius: 200px;
+
+.bg
+  background-repeat: no-repeat
+  background-position: center
+
+.bg.fit
+  background-size: contain
+
+.bg.fill
+  background-size: cover
+
+.bg.image-stitch
+  background-image: url('../images/tumblr_inline_mpsk4vsiJI1qz4rgp.gif')
+
+.bg.image-jackblack
+  background-image: url('../images/tumblr_lj3cdx2g3D1qztc63o1_r2_500.gif')
+
+.bg.fill.image-bale
+  background-image: url('../images/uF9MjJo3QIaijySXC4iL_bale.gif')
+
+.bg.image-eminem
+  background-image: url('../images/tumblr_maduz1ysVF1rwwppio1_500.gif')
+
+.bg.image-hobbit
+  background-image: url('../images/aD0EMWd_460sa_v1.gif')
+
+.bg.image-napoleon
+  background-image: url('../images/napoleon-dynamite-gif-whatever-i-feel-like-i-wanna-do-gosh.gif')
+
+.bg.image-badgirl
+  background-image: url('../images/aWZzwYq_460sa_v1.gif')
+
+.bg.image-friends
+  background-image: url('../images/6N2Fa.gif')
+
+.bg.image-mick
+  background-image: url('../images/mick.gif')
+
+.bg.image-brain
+  background-image: url('../images/post-28553-Steve-Jobs-mind-blown-gif-HD-T-pVbd.gif')
+
+.bg.image-lustro
+  background-image: url('../images/aAYPQ4Z_460sa.gif')
+
+.bg.image-miley
+  background-image: url('../images/tumblr_lz2w4gC4cB1roj92so1_500.gif')
+
+.bg.image-lemon
+  background-image: url('../images/lemon.gif')
+
+.bg.image-unicorn
+  background-image: url('../images/Christmas-2013-dog-photo-portraits-unicorn-inside.gif')
+
+.bg.image-zoey
+  background-image: url('../images/decisions_zps474d53d6.gif')
+
+.bg.image-jack
+  background-image: url('../images/jacksparrow.gif')
+
+.bg.image-april
+  background-image: url('../images/PR.gif')
+
+.bg.image-dogblanket
+  background-image: url('../images/dogblanket.gif')
+
+.bg.image-freddie
+  background-image: url('../images/freddie2.gif')
+
+.bg.image-barney
+  background-image: url('../images/tumblr_inline_mkomclINGJ1rs1mb2.gif')
+
+.bg.image-sue
+  background-image: url('../images/thumb_up_gif_jkf989.gif')
+
+.bg.image-logocream
+  background-image: url('../images/whitespace2.gif')
+
+.bg.image-ariel
+  background-image: url('../images/tumblr_inline_n3cv2e2TyP1qittb9.gif')
+
+.bg.image-bye
+  background-image: url('../images/tumblr_mdqye4cVnD1rxagu2o1_500.gif')
